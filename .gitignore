@@ -1,3 +1,6 @@
 *.suo
 .vs/ExampleGUI/v15/
 ExampleGUI/obj/
+packages/
+obj/
+bin/

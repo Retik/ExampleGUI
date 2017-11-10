@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <?if $(var.Platform) = x64 ?>
+  <?define ProductName = "ExampleGUI (64-bit)" ?>
+  <?define Win64 = "yes" ?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?else ?>
+  <?define ProductName = "ExampleGUI" ?>
+  <?define Win64 = "no" ?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?endif ?>
+
+  <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.BuildVersion)" Manufacturer="Intel Corporation" UpgradeCode="af19a569-1aa5-4f95-8bd4-6f232c0bec27">
+		<Package InstallerVersion="500" Compressed="yes" Manufacturer="Intel Corporation" InstallScope="perMachine" InstallPrivileges="elevated" />
+    
+	  <MajorUpgrade DowngradeErrorMessage="A newer version of $(var.ProductName) is already installed." />
+	  <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="ExampleInstaller" Level="1">
+		  <ComponentGroupRef Id="CSharpComponents" />
+		  <ComponentRef Id="CreateInstallFolder" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="$(var.PlatformProgramFilesFolder)">
+        <Directory Id="INSTALLFOLDER" Name="ExampleGUI">
+          <Component Id="CreateInstallFolder" Guid="{8A6DC261-995B-4C53-B761-3D9ED88462D3}">
+            <CreateFolder>
+              <Permission User="Everyone" GenericAll="yes"/>
+            </CreateFolder>
+          </Component>
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+</Wix>

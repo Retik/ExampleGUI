@@ -65,7 +65,6 @@
     </ApplicationDefinition>
     <Compile Include="Commands\AwaitableDelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="ConsoleLog.cs" />
     <Compile Include="Log4NetAdapter.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Program.cs" />

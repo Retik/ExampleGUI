@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include Include.wxi?>
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="CSharpComponents">
+            <Component Id="cmp558720FDDCCB4F5DD0CF48AFEF08542A" Directory="INSTALLFOLDER" Guid="{5A3226A2-8A43-47CC-928E-D44140B847AE}">
+                <File Id="filE9F179AE2C00033CAB93275C3EB23DEB" KeyPath="yes" Source="$(var.SourceDir)\ExampleGUI.exe" />
+            </Component>
+            <Component Id="cmpAC28256AF287859C77A93EF6F8B289FE" Directory="INSTALLFOLDER" Guid="{EDC9CD95-8B42-4512-A685-1E0F8BA45012}">
+                <File Id="fil537AC3AF951EAC4D1470DF01339F0D0A" KeyPath="yes" Source="$(var.SourceDir)\ExampleGUI.exe.config" />
+            </Component>
+            <Component Id="cmp13D58469BCB864EB53214ED46E622188" Directory="INSTALLFOLDER" Guid="{0B10F650-2F2D-49D1-BCA8-9563EEBE1429}">
+                <File Id="fil28F7A9478894C77C5F6C2A95DAA4B459" KeyPath="yes" Source="$(var.SourceDir)\log4net.dll" />
+            </Component>
+            <Component Id="cmpA8D1BE679C83A89BE1F2D6CD750A800F" Directory="INSTALLFOLDER" Guid="{3A2A0035-2296-4AB2-9D43-CA757A69C92C}">
+                <File Id="fil2D993634CF8F43E7DBCE0D0266DE1AD8" KeyPath="yes" Source="$(var.SourceDir)\SimpleInjector.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

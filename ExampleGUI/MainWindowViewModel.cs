@@ -9,41 +9,51 @@ namespace ExampleGUI
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly IConsoleLog consoleLog;
+        private readonly ILog consoleLog;
         public IAsyncCommand StartButtonCommand { get; set; }
         public ICommand StopButtonCommand { get; set; }
         private CancellationTokenSource ctSource { get; set; }
 
         public MainWindowViewModel(ILog log)
         {
-            consoleLog = new ConsoleLog(this, log);
+            consoleLog = log;
             StartButtonCommand = new AwaitableDelegateCommand(StartButtonExecute);
             StopButtonCommand = new DelegateCommand(StopButtonExecute, () => Running);
         }
         
         private async Task StartButtonExecute()
         {
-            consoleLog.WriteLine("Starting");
+            WriteLine("Starting");
             Running = true;
             ctSource = new CancellationTokenSource();
             await Task.Run(async () =>
             {
-                var random = new Random();
-                while (!ctSource.Token.IsCancellationRequested)
+                try
                 {
-                    var delayMs = random.Next(1000, 2000);
-                    await Task.Delay(delayMs);
-                    consoleLog.WriteLine($"Delayed {delayMs}ms");
+                    var random = new Random();
+                    while (!ctSource.Token.IsCancellationRequested)
+                    {
+                        var delayMs = random.Next(1000, 2000);
+                        await Task.Delay(delayMs, ctSource.Token);
+                        WriteLine($"Delayed {delayMs}ms");
+                    }
                 }
+                catch (OperationCanceledException){}
+                WriteLine("Stopped");
             });
-            consoleLog.WriteLine("Stopped");
         }
 
         private void StopButtonExecute()
         {
-            consoleLog.WriteLine("Stopping");
+            WriteLine("Stopping");
             ctSource?.Cancel();
             Running = false;
+        }
+
+        private void WriteLine(string message)
+        {
+            consoleLog.Info(message);
+            ConsoleText += message + Environment.NewLine;
         }
 
         private bool running;
@@ -66,6 +76,7 @@ namespace ExampleGUI
             {
                 if (value == consoleText) return;
                 consoleText = value;
+
                 OnPropertyChanged();
             }
         }
